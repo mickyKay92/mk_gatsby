@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import aboutMeImage from '../images/me.jpg';
-import Layout from '../components/layout.js';
+import {AppContextWrapper} from '../components/layout.js';
 require('typeface-montserrat');
 
 const StyledAboutMeWrapper = styled.div`
@@ -119,7 +119,7 @@ class AboutMe extends Component {
     }
     render(){
         return(
-    <Layout>
+    <AppContextWrapper>
         <StyledAboutMeWrapper key="abtw" onLoad={() => {this.setState({hasLoaded: !this.state.hasLoaded})}} style={this.state.hasLoaded ? style.show : null}>
             <StyledAboutMeImg src={aboutMeImage} key="abti"/>
             <StyledH2 key="abth">Hello!</StyledH2>
@@ -155,7 +155,7 @@ class AboutMe extends Component {
             </a>
         </SocialWrapper>
         </StyledAboutMeWrapper>
-        </Layout>
+        </AppContextWrapper>
 );
         }
     }

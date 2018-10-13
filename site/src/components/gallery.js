@@ -1,13 +1,7 @@
-import React, {Component} from 'react';
-import { Link } from 'gatsby';
+import React from 'react';
+import { Link, navigate} from 'gatsby';
 import styled from 'styled-components';
-import Layout from './layout.js';
-import image1 from '../images/site_images/crest1.png';
-import image2 from '../images/site_images/ite.png';
-import image3 from '../images/site_images/purpleduck.png';
-import image4 from '../images/site_images/redrock.png';
-import image5 from '../images/site_images/seal1.png';
-const imageSet = [image1, image2, image3, image4, image5];
+import {AppContext} from './layout.js';
 
 const StyledHomeWrapper = styled.div`
     display: grid;
@@ -35,26 +29,16 @@ const ImgContainer = styled.div`
     align-self: center;
 `
 
-class Gallery extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            images: imageSet,
-        }
-    }
-    shouldComponentUpdate(){
-        return false;
-    }
-    render(){
-        return (
-            <StyledHomeWrapper>
-                <StyledImagesWrapper>
-                {this.state.images.map((gc, index) => (<Link to={`/Detail/${index}`} key={index}><ImgContainer key={index}>
-                    <Image src={gc} alt={index} key={index} /></ImgContainer></Link>))}
-                    </StyledImagesWrapper>
-            </StyledHomeWrapper>
-        );
-    }
-};
+const Gallery = () => (
+    <AppContext.Consumer>{({images}) => (
+        <StyledHomeWrapper>
+            <StyledImagesWrapper>
+                {images.map((gc, index) => (<ImgContainer onClick={() =>{navigate(`detail/${gc.title}`, { state: { imageTitle: gc.title }})}} key={index}>
+                    <Image src={gc.images[0]} alt={index} key={index} /></ImgContainer>))}
+            </StyledImagesWrapper>
+        </StyledHomeWrapper>
+    )}
+    </AppContext.Consumer>
+);
 
 export default Gallery;

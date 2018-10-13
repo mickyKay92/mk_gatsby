@@ -20,3 +20,4 @@ class PieceOverview extends Component{
         );
     }
 };
+export default PieceOverview;
