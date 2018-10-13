@@ -1,14 +1,18 @@
 import React, {Component} from 'react';
 import { Link } from 'gatsby';
 import styled from 'styled-components';
-import Layout from './layout.js';
 import image1 from '../images/site_images/crest1.png';
 import image2 from '../images/site_images/ite.png';
 import image3 from '../images/site_images/purpleduck.png';
 import image4 from '../images/site_images/redrock.png';
 import image5 from '../images/site_images/seal1.png';
-const imageSet = [image1, image2, image3, image4, image5];
+const image1o = {title: "crest1", image: image1}  
+const image2o = {title: "ite", image: image2}
+const image3o = {title: "purpleduck", image: image3}
+const image4o = {title: "redrock", image: image4}
+const image5o = {title: "seal", image: image5}
 
+const imageSet = [image1o, image2o, image3o, image4o, image5o];
 const StyledHomeWrapper = styled.div`
     display: grid;
     grid-area: content;
@@ -49,8 +53,8 @@ class Gallery extends Component {
         return (
             <StyledHomeWrapper>
                 <StyledImagesWrapper>
-                {this.state.images.map((gc, index) => (<Link to={`/Detail/${index}`} key={index}><ImgContainer key={index}>
-                    <Image src={gc} alt={index} key={index} /></ImgContainer></Link>))}
+                {this.state.images.map((gc, index) => (<Link to={`/page-2/${gc.title}`} key={index}><ImgContainer key={index}>
+                    <Image src={gc.image} alt={gc.title} key={index} /></ImgContainer></Link>))}
                     </StyledImagesWrapper>
             </StyledHomeWrapper>
         );
