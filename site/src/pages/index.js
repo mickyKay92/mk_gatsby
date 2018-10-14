@@ -1,11 +1,12 @@
 import React from 'react';
 import Gallery from '../components/gallery';
-import Layout from '../components/layout';
+import {AppContextWrapper} from '../components//layout.js';
+
 
 const IndexPage = () => (
-  <Layout>
+  <AppContextWrapper>
     <Gallery/>
-  </Layout>
+  </AppContextWrapper>
 )
 
 export default IndexPage

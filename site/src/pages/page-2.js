@@ -1,14 +1,14 @@
 import React from 'react'
 import { Link } from 'gatsby'
 
-import Layout from '../components/layout'
+import {AppContextWrapper} from '../components/layout'
 
 const SecondPage = () => (
-  <Layout>
+  <AppContextWrapper>
     <h1>Hi from the second page</h1>
     <p>Welcome to page 2</p>
     <Link to="/">Go back to the homepage</Link>
-  </Layout>
+  </AppContextWrapper>
 )
 
 export default SecondPage

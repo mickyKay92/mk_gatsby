@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'gatsby';
 import menuIcon from '../images/ui_assets/baseline-menu-24px.svg';
 import logo from '../images/ui_assets/logo.svg';
+import {AppContext} from './layout.js';
 
 // Styles //
 const StyledMobileMenu = styled.div`
@@ -60,36 +61,22 @@ grid-area: header;
 height: auto;
 `
 
-const open = {
-  menu:{
-    width: '200px',
-    transition: 'all .5s',
-    overflowX: 'visible',
-  }, 
-  button: {
-    transform: 'rotate(90deg)'
-  }
-}
-
 class Header extends Component{
-  constructor(props){
-    super(props);
-    this.state = {
-      isVisible: false,
-    }
-  }
   render(){
     return(
-      <StyledHeader>
-        <StyledMobileMenu key="StyledMenu" style={this.state.isVisible ? open.menu : null }>
-          <StyledMobileMenuLogo src={logo} className="menuSiteLogo" alt="logo"/>
-          <StyledNavLinksContainer>
-            <StyledNavLink onClick={() => { this.setState({ isVisible: !this.state.isVisible }); this.props.menuOpen(); }} to={'/'}>Work</StyledNavLink>
-            <StyledNavLink onClick={() => { this.setState({ isVisible: !this.state.isVisible }); this.props.menuOpen(); }} to={'/aboutme'}>About</StyledNavLink>
-          </StyledNavLinksContainer>
-        </StyledMobileMenu>
-        <StyledMenuButton src={menuIcon} alt="Menu" onClick={() => {this.setState({isVisible: !this.state.isVisible});}} style={this.state.isVisible ? open.button : null }></StyledMenuButton>
-      </StyledHeader>
+      <AppContext.Consumer>
+        {({ visible, updateVisible, menuOpen}) => (
+          <StyledHeader>
+              <StyledMobileMenu key="StyledMenu" style={visible ? menuOpen.menu : null}>
+                <StyledMobileMenuLogo src={logo} className="menuSiteLogo" alt="logo" />
+                <StyledNavLinksContainer>
+                  <StyledNavLink onClick={updateVisible} to={'/'}>Work</StyledNavLink>
+                  <StyledNavLink onClick={updateVisible} to={'/aboutme'}>About</StyledNavLink>
+                </StyledNavLinksContainer>
+              </StyledMobileMenu>
+              <StyledMenuButton src={menuIcon} alt="Menu" onClick={updateVisible} style={visible ? menuOpen.button : null}></StyledMenuButton>
+        </StyledHeader> 
+      )}</AppContext.Consumer>
     );
   }
 }
