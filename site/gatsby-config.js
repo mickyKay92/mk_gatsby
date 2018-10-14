@@ -12,6 +12,9 @@ module.exports = {
     },
     `gatsby-transformer-remark`,
     'gatsby-plugin-react-helmet',
+    `gatsby-remark-copy-linked-files`,
+    `gatsby-transformer-sharp`,
+    `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
@@ -24,6 +27,12 @@ module.exports = {
         icon: 'src/images/gatsby-icon.png', // This path is relative to the root of the site.
       },
     },
+    {
+      resolve: `gatsby-remark-images`,
+      options: {
+        maxWidth: 1080,
+    },
+  },
     'gatsby-plugin-offline',
   ],
 }
