@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
 import { Link, StaticQuery } from 'gatsby';
-// import menuIcon from '../images/ui_assets/baseline-menu-24px.svg';
-// import logo from '../images/ui_assets/logo.svg';
 import {AppContext} from './layout.js';
 
 // Styles //
@@ -65,22 +63,19 @@ export default () =>{
     return(
       <AppContext.Consumer>
         {({ visible, updateVisible, menuOpen, logoImg, menuImg}) => (
+          <StaticQuery query={graphql`query AssetQuery { logo:file (relativePath: {regex:"/logo/"}){publicURL} menu:file(relativePath:{regex:"/menu/"}){ publicURL } }`} render={data =>(
           <StyledHeader>
-              <StyledMobileMenu key="StyledMenu" style={visible ? menuOpen.menu : null}>
-                <StyledMobileMenuLogo src={logoImg} className="menuSiteLogo" alt="logo" />
+            <StyledMobileMenu key="StyledMenu" style={visible ? menuOpen.menu : null}>
+              <StyledMobileMenuLogo src={data.logo.publicURL} className="menuSiteLogo" alt="logo"/>
                 <StyledNavLinksContainer>
                   <StyledNavLink onClick={updateVisible} to={'/'}>Work</StyledNavLink>
                   <StyledNavLink onClick={updateVisible} to={'/aboutme'}>About</StyledNavLink>
                 </StyledNavLinksContainer>
               </StyledMobileMenu>
-
-              <StaticQuery
-                query={graphql`
-                  query AssetsQuery {
-                    file(relativePath:{regex:"/menu/"}){
-                      publicURL } } `} render={data => (
-              <StyledMenuButton src={data.file.publicURL} alt="Menu" onClick={updateVisible} style={visible ? menuOpen.button : null}></StyledMenuButton>)}/>
+            <StyledMenuButton src={data.menu.publicURL} alt="Menu" onClick={updateVisible} style={visible ? menuOpen.button : null}></StyledMenuButton>
           </StyledHeader> 
-      )}</AppContext.Consumer>
+          )}/>
+        )}
+      </AppContext.Consumer>
     );
   }

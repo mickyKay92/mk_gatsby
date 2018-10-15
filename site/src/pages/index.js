@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppContextWrapper } from '../components//layout.js';
-import { Link, graphql } from 'gatsby';
+import { Link, graphql, StaticQuery } from 'gatsby';
 import styled from 'styled-components';
 import Img from 'gatsby-image';
 
@@ -32,40 +32,34 @@ const StyledLink = styled(Link)`
     height:100%;
 `
 
-export default ({data}) => {
-  const images = data.allFile.edges
-  console.log(images)
+export default () => {
   return (
   <AppContextWrapper>
     <StyledHomeWrapper>
       <StyledImagesWrapper>
-        {images.map((gc, index) => (<StyledLink to={`detail/Crest`} key={index}>
+        <StaticQuery query={graphql`
+        query GalleryQuery {   allFile(filter:{relativePath:{regex:"/pages/detail/images/"}}){
+          edges{
+            node{
+              childImageSharp{
+                fluid(maxHeight: 200){
+                  aspectRatio
+                  srcWebp
+                  sizes
+                  srcSetWebp
+                  src
+                  srcSet
+                }
+              }
+            }
+          }
+        }}
+        `} render={data => (data.allFile.edges.map((gc, index) => (<StyledLink to={`detail/Crest`} key={index}>
           <Image fluid={gc.node.childImageSharp.fluid} alt={gc.node.childImageSharp.fluid.src} key={index} />
-        </StyledLink>))}
+        </StyledLink>))
+        )}/>
       </StyledImagesWrapper>
     </StyledHomeWrapper>
   </AppContextWrapper>
-);
-  }
-
-export const query = graphql`
-query($test: String = "pages/detail/images/"){
-    allFile(filter:{relativePath:{regex: $test}})
-    {
-      edges{
-        node{
-          childImageSharp{
-            fluid(maxHeight: 200){
-                aspectRatio
-                src
-                srcSet
-                srcWebp
-                srcSetWebp
-                sizes
-            }
-          }
-        }
-      }
-    }
-  }
-`
+  );
+}
