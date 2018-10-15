@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import aboutMeImage from '../images/me.jpg';
-import { AppContextWrapper } from '../components/layout.js';
+import {AppContextWrapper} from '../components/layout.js';
+import {graphql, StaticQuery} from 'gatsby';
+import Img from 'gatsby-image';
 require('typeface-montserrat');
 
 const StyledAboutMeWrapper = styled.div`
@@ -18,7 +19,7 @@ const StyledAboutMeWrapper = styled.div`
     width: 70vw;
     grid-gap: 20px;
     transition: transform .2s linear;
-    transform: translateY(1000px);
+    /*transform: translateY(1000px);*/
     @media (max-width: 700px){
         grid-template-columns: 85vw;
         grid-template-areas: 
@@ -26,14 +27,14 @@ const StyledAboutMeWrapper = styled.div`
         "title"
         "text"
         "social";
-        grid-template-rows: auto min-content auto min-content;
+        grid-template-rows: min-content min-content min-content min-content;
         justify-self: center;
         align-self: unset;
         width: unset;
     }
 `
 
-const StyledAboutMeImg = styled.img`
+const StyledAboutMeImg = styled(Img)`
     grid-area: image;
     max-width: 500px;
     width: 100%;
@@ -108,7 +109,16 @@ export default () => {
     return(
     <AppContextWrapper>
         <StyledAboutMeWrapper key="abtw">
-            <StyledAboutMeImg src={aboutMeImage} key="abti"/>
+            <StaticQuery query={graphql`query AboutMeQuery{file(relativePath: {regex:"/images/me/"}){
+                childImageSharp{
+                    fluid(maxWidth:500){
+                        src
+                        sizes
+                        srcWebp
+                        srcWebp
+                        srcSet
+                        aspectRatio
+                    }}}}`} render={data => (<StyledAboutMeImg fluid={data.file.childImageSharp.fluid} key="abti"/>)}/>
             <StyledH2 key="abth">Hello!</StyledH2>
             <StyledParagraph key="abtp">
                 My name is Michelle and I have been working as a freelance digital artist since 2013 creating digital paintings, illustrations and comics for various clients.

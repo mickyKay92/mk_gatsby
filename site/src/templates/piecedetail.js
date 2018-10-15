@@ -4,18 +4,16 @@ import {AppContextWrapper} from '../components/layout.js'
 import {graphql} from 'gatsby'
 
 export default ({data}) => {
-    const piece = data.allMarkdownRemark
-    console.log(piece.edges[0].node)
     return (
         <AppContextWrapper>
             <div id="pieceDetail" className="content wrapper animation">
                 <div className="pieceInfoGrid">
                     <div className="test grid-row-1 item-center-row">
-                        <p className="pt-60 pb-60 pieceFontSize">{piece.edges[0].node.frontmatter.info}</p>
+                        <p className="pt-60 pb-60 pieceFontSize">{data.allMarkdownRemark.edges[0].node.frontmatter.info}</p>
                     </div>
                 </div>
                 <div className="pieceInfoImageGrid">
-                    <Img fluid={piece.edges[0].node.frontmatter.image.childImageSharp.fluid}/>
+                    <Img fluid={data.allMarkdownRemark.edges[0].node.frontmatter.image.childImageSharp.fluid}/>
                 </div>
             </div>
         </AppContextWrapper>

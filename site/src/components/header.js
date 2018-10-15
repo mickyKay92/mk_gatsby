@@ -1,11 +1,13 @@
 import React from 'react'
 import styled from 'styled-components';
-import { Link, StaticQuery } from 'gatsby';
+import {Link, StaticQuery, graphql} from 'gatsby';
 import {AppContext} from './layout.js';
 
-// Styles //
+//TODO: Add animation to text and logo when menu slides out, Have the text and logo slide in a .5 second later and bounce.
+
 const StyledMobileMenu = styled.div`
-width: 0px;
+transform: translate(-200px);
+width: 200px;
 height: 100vh;
 background-color: rgb(74, 74, 74);
 Z-Index: 5;
@@ -16,7 +18,7 @@ grid-template-areas:
 grid-template-columns: 100%;
 grid-template-rows: auto 1fr;
 position: fixed;
-transition: all .5s;
+transition: transform .5s;
 overflow-x: hidden;
 > img {min-width: 100px}
 }
