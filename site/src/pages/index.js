@@ -1,6 +1,6 @@
 import React from 'react';
-import {AppContextWrapper} from '../components//layout.js';
-import {Link, graphql} from 'gatsby';
+import { AppContextWrapper } from '../components//layout.js';
+import { Link, graphql } from 'gatsby';
 import styled from 'styled-components';
 import Img from 'gatsby-image';
 

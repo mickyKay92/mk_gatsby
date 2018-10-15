@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import aboutMeImage from '../images/me.jpg';
-import {AppContextWrapper} from '../components/layout.js';
+import { AppContextWrapper } from '../components/layout.js';
 require('typeface-montserrat');
 
 const StyledAboutMeWrapper = styled.div`
@@ -104,23 +104,10 @@ const StyledH2 = styled.h2`
     margin: 0;
     }
 `
-
-var style = {
-    show: {
-        transform: "unset"
-    }
-}
-class AboutMe extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            hasLoaded: false
-        }
-    }
-    render(){
-        return(
+export default () => {
+    return(
     <AppContextWrapper>
-        <StyledAboutMeWrapper key="abtw" onLoad={() => {this.setState({hasLoaded: !this.state.hasLoaded})}} style={this.state.hasLoaded ? style.show : null}>
+        <StyledAboutMeWrapper key="abtw">
             <StyledAboutMeImg src={aboutMeImage} key="abti"/>
             <StyledH2 key="abth">Hello!</StyledH2>
             <StyledParagraph key="abtp">
@@ -156,8 +143,5 @@ class AboutMe extends Component {
         </SocialWrapper>
         </StyledAboutMeWrapper>
         </AppContextWrapper>
-);
-        }
-    }
-
-    export default AboutMe
+    );
+}

@@ -37,6 +37,7 @@ export class AppContextWrapper extends Component{
     updateContext = () => {this.setState({isVisible: !this.state.isVisible})};
     render(){
       const children = this.props.children;
+      console.log(this.props.data);
       return(
         <AppWrapper>
         <AppContext.Provider value={({visible: this.state.isVisible, updateVisible: this.updateContext, menuOpen: this.state.menuOpen})}>

@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components';
-import { Link } from 'gatsby';
-import menuIcon from '../images/ui_assets/baseline-menu-24px.svg';
-import logo from '../images/ui_assets/logo.svg';
+import { Link, StaticQuery } from 'gatsby';
+// import menuIcon from '../images/ui_assets/baseline-menu-24px.svg';
+// import logo from '../images/ui_assets/logo.svg';
 import {AppContext} from './layout.js';
 
 // Styles //
@@ -61,24 +61,26 @@ grid-area: header;
 height: auto;
 `
 
-class Header extends Component{
-  render(){
+export default () =>{
     return(
       <AppContext.Consumer>
-        {({ visible, updateVisible, menuOpen}) => (
+        {({ visible, updateVisible, menuOpen, logoImg, menuImg}) => (
           <StyledHeader>
               <StyledMobileMenu key="StyledMenu" style={visible ? menuOpen.menu : null}>
-                <StyledMobileMenuLogo src={logo} className="menuSiteLogo" alt="logo" />
+                <StyledMobileMenuLogo src={logoImg} className="menuSiteLogo" alt="logo" />
                 <StyledNavLinksContainer>
                   <StyledNavLink onClick={updateVisible} to={'/'}>Work</StyledNavLink>
                   <StyledNavLink onClick={updateVisible} to={'/aboutme'}>About</StyledNavLink>
                 </StyledNavLinksContainer>
               </StyledMobileMenu>
-              <StyledMenuButton src={menuIcon} alt="Menu" onClick={updateVisible} style={visible ? menuOpen.button : null}></StyledMenuButton>
-        </StyledHeader> 
+
+              <StaticQuery
+                query={graphql`
+                  query AssetsQuery {
+                    file(relativePath:{regex:"/menu/"}){
+                      publicURL } } `} render={data => (
+              <StyledMenuButton src={data.file.publicURL} alt="Menu" onClick={updateVisible} style={visible ? menuOpen.button : null}></StyledMenuButton>)}/>
+          </StyledHeader> 
       )}</AppContext.Consumer>
     );
   }
-}
-
-export default Header
