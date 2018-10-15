@@ -23,13 +23,14 @@ const Image = styled(Img)`
     height: auto;
     align-self: center;
     justify-self: center;
+    > picture > image {
+      object-fit: contain;
+    }
 `
 
 const StyledLink = styled(Link)`
     justify-self: center;
     align-self: center;
-    width: 100%;
-    height:100%;
 `
 
 export default () => {
@@ -38,24 +39,25 @@ export default () => {
     <StyledHomeWrapper>
       <StyledImagesWrapper>
         <StaticQuery query={graphql`
-        query GalleryQuery {   allFile(filter:{relativePath:{regex:"/pages/detail/images/"}}){
+        query GalleryQuery { allFile(filter:{relativePath:{regex:"/home/"}}){
           edges{
             node{
               childImageSharp{
-                fluid(maxHeight: 200){
-                  aspectRatio
+								fixed(height: 100){
+                  width
+                  height
+                  srcSet
                   srcWebp
-                  sizes
                   srcSetWebp
                   src
-                  srcSet
                 }
               }
             }
           }
-        }}
-        `} render={data => (data.allFile.edges.map((gc, index) => (<StyledLink to={`detail/Crest`} key={index}>
-          <Image fluid={gc.node.childImageSharp.fluid} alt={gc.node.childImageSharp.fluid.src} key={index} />
+        }
+      }
+        `} render={data => (data.allFile.edges.map((gc, index) => (<StyledLink to={`detail/steam`} key={index}>
+          <Image fixed={gc.node.childImageSharp.fixed} alt={gc.node.childImageSharp.id} key={gc.node.childImageSharp.id} />
         </StyledLink>))
         )}/>
       </StyledImagesWrapper>

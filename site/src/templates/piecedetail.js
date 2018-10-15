@@ -4,6 +4,7 @@ import {AppContextWrapper} from '../components/layout.js'
 import {graphql} from 'gatsby'
 
 export default ({data}) => {
+    const images = data.allMarkdownRemark.edges[0].node.frontmatter.images
     return (
         <AppContextWrapper>
             <div id="pieceDetail" className="content wrapper animation">
@@ -13,7 +14,7 @@ export default ({data}) => {
                     </div>
                 </div>
                 <div className="pieceInfoImageGrid">
-                    <Img fluid={data.allMarkdownRemark.edges[0].node.frontmatter.image.childImageSharp.fluid}/>
+                {images.map((gc, index) => (<Img fluid={gc.childImageSharp.fluid} key={gc.childImageSharp.id}/>))}
                 </div>
             </div>
         </AppContextWrapper>
@@ -21,28 +22,29 @@ export default ({data}) => {
 }
 
 export const query = graphql`
-    query($slug: String!){
-        allMarkdownRemark(filter: { fields: { slug: { eq: $slug } } })
-            {
-            edges{
-                node{
-                    frontmatter{
-                        image{
-                            publicURL
-                            childImageSharp{
-                                fluid(maxWidth: 1000){
-                                    aspectRatio
-                                    srcWebp
-                                    srcSetWebp
-                                    sizes
-                                    src
-                                    srcSet
-                                }
-                            }
-                        }
-                    }
+query ($slug: String!) {
+    allMarkdownRemark(filter: {fields: {slug: {eq: $slug}}}) {
+      edges {
+        node {
+          frontmatter {
+            title
+            images {
+              childImageSharp {
+                  id
+                fluid(maxWidth: 1000) {
+                  src
+                  srcSet
+                  srcWebp
+                  srcSetWebp
+                  sizes
+                  aspectRatio
                 }
+              }
             }
+          }
         }
+      }
     }
+  }
+  
 `
