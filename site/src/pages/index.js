@@ -24,6 +24,9 @@ const Image = styled(Img)`
     height: auto;
     align-self: center;
     justify-self: center;
+    > picture > img {
+      object-fit: contain !important;
+    }
 `
 
 const StyledLink = styled(Link)`
