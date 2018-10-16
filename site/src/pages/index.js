@@ -16,6 +16,7 @@ const StyledHomeWrapper = styled.div`
 const StyledImagesWrapper = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    column-gap: 30px;
 `
 const Image = styled(Img)`
     max-width: 250px;
@@ -29,7 +30,6 @@ const StyledLink = styled(Link)`
     justify-self: center;
     align-self: center;
 `
-
 export default () => {
   return (
   <AppContextWrapper>

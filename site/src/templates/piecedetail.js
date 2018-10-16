@@ -45,6 +45,5 @@ query ($slug: String!) {
         }
       }
     }
-  }
-  
+  } 
 `
