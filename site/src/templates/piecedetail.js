@@ -14,7 +14,7 @@ export default ({data}) => {
                     </div>
                 </div>
                 <div className="pieceInfoImageGrid">
-                {images.map((gc, index) => (<Img fluid={gc.childImageSharp.fluid} key={gc.childImageSharp.id}/>))}
+                {images.map((gc) => (<Img fluid={gc.childImageSharp.fluid} key={gc.childImageSharp.id}/>))}
                 </div>
             </div>
         </AppContextWrapper>
@@ -30,7 +30,7 @@ query ($slug: String!) {
             title
             images {
               childImageSharp {
-                  id
+                id
                 fluid(maxWidth: 1000) {
                   src
                   srcSet

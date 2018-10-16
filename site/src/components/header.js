@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 import {Link, StaticQuery, graphql} from 'gatsby';
 import {AppContext} from './layout.js';
+import Img from 'gatsby-image';
 
 //TODO: Add animation to text and logo when menu slides out, Have the text and logo slide in a .5 second later and bounce.
 
@@ -32,10 +33,10 @@ font-size: 16px;
 color: #f5f5f5;
 `
 
-const StyledMobileMenuLogo = styled.img`
+const StyledMobileMenuLogo = styled(Img)`
 grid-area: mobile-menu-logo;
 max-width: 100px;
-margin: 10px 0px 10px 0px;
+margin: 10px 0px 10px 15px;
 transform: unset;
 `
 
@@ -65,10 +66,12 @@ export default () =>{
     return(
       <AppContext.Consumer>
         {({ visible, updateVisible, menuOpen, logoImg, menuImg}) => (
-          <StaticQuery query={graphql`query AssetQuery { logo:file (relativePath: {regex:"/logo/"}){publicURL} menu:file(relativePath:{regex:"/menu/"}){ publicURL } }`} render={data =>(
+          <StaticQuery query={graphql`query AssetQuery { logo:file (relativePath: {regex:"/logo/"}){childImageSharp{id
+            fixed(width:100){src width height aspectRatio srcSet srcWebp srcSetWebp}
+      }} menu:file(relativePath:{regex:"/menu/"}){ publicURL } }`} render={data =>(
           <StyledHeader>
             <StyledMobileMenu key="StyledMenu" style={visible ? menuOpen.menu : null}>
-              <StyledMobileMenuLogo src={data.logo.publicURL} className="menuSiteLogo" alt="logo"/>
+              <StyledMobileMenuLogo fixed={data.logo.childImageSharp.fixed} alt="logo" key={data.logo.childImageSharp.id}/>
                 <StyledNavLinksContainer>
                   <StyledNavLink onClick={updateVisible} to={'/'}>Work</StyledNavLink>
                   <StyledNavLink onClick={updateVisible} to={'/aboutme'}>About</StyledNavLink>
