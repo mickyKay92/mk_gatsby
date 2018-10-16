@@ -23,9 +23,6 @@ const Image = styled(Img)`
     height: auto;
     align-self: center;
     justify-self: center;
-    > picture > image {
-      object-fit: contain;
-    }
 `
 
 const StyledLink = styled(Link)`
@@ -39,25 +36,31 @@ export default () => {
     <StyledHomeWrapper>
       <StyledImagesWrapper>
         <StaticQuery query={graphql`
-        query GalleryQuery { allFile(filter:{relativePath:{regex:"/home/"}}){
-          edges{
-            node{
-              childImageSharp{
-								fixed(height: 100){
-                  width
-                  height
-                  srcSet
-                  srcWebp
-                  srcSetWebp
-                  src
+        query GalleryQuery { allMarkdownRemark {
+          edges {
+            node {
+              frontmatter {
+                title
+                images {
+                  childImageSharp {
+                    id
+                    fixed(height: 100) {
+                      width
+                      height
+                      srcSet
+                      srcWebp
+                      srcSetWebp
+                      src
+                    }
+                  }
                 }
               }
             }
           }
         }
       }
-        `} render={data => (data.allFile.edges.map((gc, index) => (<StyledLink to={`detail/steam`} key={index}>
-          <Image fixed={gc.node.childImageSharp.fixed} alt={gc.node.childImageSharp.id} key={gc.node.childImageSharp.id} />
+        `} render={data => (data.allMarkdownRemark.edges.map((gc, index) => (<StyledLink to={`detail/${gc.node.frontmatter.title}`} key={index}>
+          <Image fixed={gc.node.frontmatter.images[0].childImageSharp.fixed} alt={gc.node.frontmatter.images[0].childImageSharp.id} key={gc.node.frontmatter.images[0].childImageSharp.id} />
         </StyledLink>))
         )}/>
       </StyledImagesWrapper>
