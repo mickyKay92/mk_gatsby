@@ -21,7 +21,6 @@ const StyledAboutMeWrapper = styled.div`
     width: 70vw;
     grid-gap: 20px;
     transition: transform .2s linear;
-    /*transform: translateY(1000px);*/
     @media (max-width: 700px){
         grid-template-columns: 85vw;
         grid-template-areas: 
@@ -115,7 +114,8 @@ export default () => {
         top: '100%',
         position: 'relative',
         height: '100%',
-        justifySelf: 'center'
+        justifySelf: 'center',
+        display: 'flex',
       }}
       transitionStyles={{
         entering: { top: '0%' },

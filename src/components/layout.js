@@ -24,7 +24,7 @@ const AppWrapper = styled.div`
 
   const Overlay = styled.div`
     position: absolute;
-    height: 100%;
+    height: calc(100vh - 62px);
     width: 100%;
     z-index: 4;
     transition: all .5s;

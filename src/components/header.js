@@ -82,10 +82,6 @@ const StyledLink2 = styled(Link)`
   transform: translate(-200px);
 `
 
-const TestDiv = styled.div`
-  position: inherit;
-`
-
 export default () =>{
     return(
       <AppContext.Consumer>

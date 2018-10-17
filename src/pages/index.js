@@ -53,7 +53,8 @@ export default () => {
       top: '100%',
       position: 'relative',
       height: '100%',
-      justifySelf: 'center'
+      justifySelf: 'center',
+      display: 'flex'
     }}
     transitionStyles={{
       entering: { top: '0%' },
