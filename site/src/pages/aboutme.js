@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import {AppContextWrapper} from '../components/layout.js';
 import {graphql, StaticQuery} from 'gatsby';
 import Img from 'gatsby-image';
+import PageTransition from 'gatsby-plugin-page-transitions'
+
 require('typeface-montserrat');
 
 const StyledAboutMeWrapper = styled.div`
@@ -108,6 +110,20 @@ const StyledH2 = styled.h2`
 export default () => {
     return(
     <AppContextWrapper>
+    <PageTransition defaultStyle={{
+        transition: 'top 350ms cubic-bezier(0.47, 0, 0.75, 0.72)',
+        top: '100%',
+        position: 'relative',
+        height: '100%',
+        justifySelf: 'center'
+      }}
+      transitionStyles={{
+        entering: { top: '0%' },
+        entered: { top : '0%' },
+        exiting: { top : '100%' },
+      }}
+      transitionTime={500}
+    >
         <StyledAboutMeWrapper key="abtw">
             <StaticQuery query={graphql`query AboutMeQuery{file(relativePath: {regex:"/images/me/"}){
                 childImageSharp{
@@ -152,6 +168,7 @@ export default () => {
             </a>
         </SocialWrapper>
         </StyledAboutMeWrapper>
+        </PageTransition>
         </AppContextWrapper>
     );
 }

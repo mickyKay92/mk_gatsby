@@ -2,6 +2,7 @@ import React, {Component, createContext} from 'react';
 import styled from 'styled-components';
 import Header from './header';
 import './layout.css';
+require('typeface-montserrat');
 
 const AppWrapper = styled.div`
   display: grid;
@@ -15,6 +16,21 @@ const AppWrapper = styled.div`
   touch-action: manipulation;
   `
 
+  const ContentWrapper = styled.div`
+    display: inherit;
+    transition: transform .5s ;
+    transform: unset;
+  `
+
+  const Overlay = styled.div`
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 4;
+    transition: all .5s;
+    pointer-events: none;
+  `
+
 export const AppContext = createContext();
 
 export class AppContextWrapper extends Component{
@@ -25,11 +41,21 @@ export class AppContextWrapper extends Component{
         menuOpen: {
           menu:{
             transform: 'translate(0px)',
-            transition: 'all .5s',
             overflowX: 'visible',
           }, 
           button: {
             transform: 'rotate(90deg)'
+          },
+          content: {
+            transform: 'translate(200px)',
+            overflowX: 'hidden',
+          },
+          contentOverlay: {
+            background: 'rgba(0,0,0,0.5)',
+            pointerEvents: 'unset'
+          },
+          link: {
+            transform: 'translate(0px)',
           }
         },
       }
@@ -41,7 +67,10 @@ export class AppContextWrapper extends Component{
         <AppWrapper>
         <AppContext.Provider value={({visible: this.state.isVisible, updateVisible: this.updateContext, menuOpen: this.state.menuOpen})}>
         <Header/>
+        <ContentWrapper style={this.state.isVisible ? this.state.menuOpen.content : null}>
+        <Overlay style={this.state.isVisible ? this.state.menuOpen.contentOverlay : null} onClick={() => this.setState({isVisible: false})}/>
           {children}
+          </ContentWrapper>
         </AppContext.Provider>
         </AppWrapper>
       );

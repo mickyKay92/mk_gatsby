@@ -3,6 +3,7 @@ import { AppContextWrapper } from '../components//layout.js';
 import { Link, graphql, StaticQuery } from 'gatsby';
 import styled from 'styled-components';
 import Img from 'gatsby-image';
+import PageTransition from 'gatsby-plugin-page-transitions'
 
 const StyledHomeWrapper = styled.div`
     display: grid;
@@ -11,12 +12,22 @@ const StyledHomeWrapper = styled.div`
     justify-self: center;
     grid-template-columns: 70vw;
     grid-template-rows: 70vh;
+    @media (max-width: 700px){
+      grid-template-rows: auto;
+      grid-template-columns: 90vw;
+      margin-top: 5vh;
+    }
+
 `
 
 const StyledImagesWrapper = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     column-gap: 30px;
+    @media (max-width: 700px){
+      row-gap: 30px;
+    }
+    
 `
 const Image = styled(Img)`
     max-width: 250px;
@@ -26,6 +37,7 @@ const Image = styled(Img)`
     justify-self: center;
     > picture > img {
       object-fit: contain !important;
+      border-radius: 5px;
     }
 `
 
@@ -36,10 +48,24 @@ const StyledLink = styled(Link)`
 export default () => {
   return (
   <AppContextWrapper>
+  <PageTransition defaultStyle={{
+      transition: 'top 350ms cubic-bezier(0.47, 0, 0.75, 0.72)',
+      top: '100%',
+      position: 'relative',
+      height: '100%',
+      justifySelf: 'center'
+    }}
+    transitionStyles={{
+      entering: { top: '0%' },
+      entered: { top : '0%' },
+      exiting: { top : '100%' },
+    }}
+    transitionTime={350}
+  >
     <StyledHomeWrapper>
       <StyledImagesWrapper>
         <StaticQuery query={graphql`
-        query GalleryQuery { allMarkdownRemark {
+        query GalleryQuery { allMarkdownRemark(sort:{fields:frontmatter___title,order:DESC}) {
           edges {
             node {
               frontmatter {
@@ -68,6 +94,8 @@ export default () => {
         )}/>
       </StyledImagesWrapper>
     </StyledHomeWrapper>
+    </PageTransition>
   </AppContextWrapper>
+  
   );
 }
