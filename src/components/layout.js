@@ -2,6 +2,8 @@ import React, {Component, createContext} from 'react';
 import styled from 'styled-components';
 import Header from './header';
 import MobileMenu from './mobilemenu.js';
+import Helmet from 'react-helmet'
+import { StaticQuery, graphql} from 'gatsby';
 import './layout.css';
 require('typeface-montserrat');
 
@@ -61,14 +63,35 @@ export class AppContextWrapper extends Component{
     render(){
       const children = this.props.children;
       return(
-        <AppWrapper>
-          <AppContext.Provider value={({visible: this.state.isVisible, updateVisible: this.updateContext, menuOpen: this.state.menuOpen})}>
-            <MobileMenu/>
-            <Header/>
-            <Overlay style={this.state.isVisible ? this.state.menuOpen.contentOverlay : null} onClick={() => this.setState({isVisible: false})}/>
-            {children}
-          </AppContext.Provider>
-        </AppWrapper>
+        <StaticQuery
+        query={graphql`
+          query SiteTitleQuery {
+            site {
+              siteMetadata {
+                title
+              }
+            }
+          }
+        `}
+        render={data => (
+          <>
+            <Helmet
+              title={data.site.siteMetadata.title}
+              meta={[
+                { name: 'Graphic design portfolio site', content: 'Graphic Design, Art, Logos etc.' },
+                { name: 'Graphic Design, Portfolio, Art, Logo', content: '' },
+              ]}>
+            </Helmet>
+            <AppWrapper>
+              <AppContext.Provider value={({ visible: this.state.isVisible, updateVisible: this.updateContext, menuOpen: this.state.menuOpen })}>
+                <MobileMenu />
+                <Header />
+                <Overlay style={this.state.isVisible ? this.state.menuOpen.contentOverlay : null} onClick={() => this.setState({ isVisible: false })} />
+                {children}
+              </AppContext.Provider>
+            </AppWrapper>
+        </>
+        )}/>
       );
     }
   }

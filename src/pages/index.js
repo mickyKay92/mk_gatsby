@@ -24,7 +24,7 @@ const StyledHomeWrapper = styled.div`
 
 const StyledImagesWrapper = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(305px, 1fr));
     column-gap: 30px;
     @media (max-width: 700px){
       row-gap: 30px;
