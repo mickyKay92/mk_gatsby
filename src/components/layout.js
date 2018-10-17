@@ -18,9 +18,9 @@ const AppWrapper = styled.div`
 
   const Overlay = styled.div`
     position: absolute;
-    height: calc(100vh - 62px);
+    height: 100vh;
     width: 100%;
-    z-index: 4;
+    z-index: 3;
     transition: all .5s;
     pointer-events: none;
   `
@@ -45,7 +45,7 @@ export class AppContextWrapper extends Component{
             overflowX: 'hidden',
           },
           contentOverlay: {
-            background: 'rgba(0,0,0,0.5)',
+            background: 'rgba(245, 245, 245, 0.8)',
             pointerEvents: 'unset'
           },
           link: {

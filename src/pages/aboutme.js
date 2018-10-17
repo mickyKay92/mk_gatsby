@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import {AppContextWrapper} from '../components/layout.js';
 import {graphql, StaticQuery} from 'gatsby';
 import Img from 'gatsby-image';
+import {AppContext} from '../components/layout.js';
+
 
 require('typeface-montserrat');
 
@@ -19,7 +21,8 @@ const StyledAboutMeWrapper = styled.div`
     align-self: center;
     width: 70vw;
     grid-gap: 20px;
-    transition: transform .2s linear;
+    transform: unset;
+    transition: transform .5s;
     @media (max-width: 700px){
         grid-template-columns: 85vw;
         grid-template-areas: 
@@ -108,7 +111,9 @@ const StyledH2 = styled.h2`
 export default () => {
     return(
     <AppContextWrapper>
-        <StyledAboutMeWrapper key="abtw">
+    <AppContext.Consumer> 
+    {({visible, menuOpen}) => (
+        <StyledAboutMeWrapper style={visible ? menuOpen.content : null}>
             <StaticQuery query={graphql`query AboutMeQuery{file(relativePath: {regex:"/images/me/"}){
                 childImageSharp{
                     fluid(maxWidth:500){
@@ -152,6 +157,8 @@ export default () => {
             </a>
         </SocialWrapper>
         </StyledAboutMeWrapper>
+    )}
+    </AppContext.Consumer>
         </AppContextWrapper>
     );
 }

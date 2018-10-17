@@ -3,7 +3,8 @@ import Img from "gatsby-image"
 import {AppContextWrapper} from '../components/layout.js'
 import {graphql} from 'gatsby'
 import styled from 'styled-components'
-import PageTransition from 'gatsby-plugin-page-transitions'
+import {AppContext} from '../components/layout.js';
+
 
 const StyledDetailWrapper = styled.div`
   margin-top: 30px;
@@ -14,6 +15,8 @@ const StyledDetailWrapper = styled.div`
   grid-template-areas: 
   "text"
   "images";
+  transform: unset;
+  transition: transform .5s;
   @media only screen and (max-width: 768px){
     grid-template-columns: 90vw;
   }
@@ -49,28 +52,16 @@ export default ({data}) => {
   console.log(data)
   return (
     <AppContextWrapper>
-    <PageTransition defaultStyle={{
-      transition: 'top 350ms cubic-bezier(0.47, 0, 0.75, 0.72)',
-      top: '100%',
-      position: 'relative',
-      height: '100%',
-      justifySelf: 'center'
-    }}
-    transitionStyles={{
-      entering: { top: '0%' },
-      entered: { top : '0%' },
-      exiting: { top : '100%' },
-      exited:{ top: '100%'},
-    }}
-    transitionTime={500}
-  >
-      <StyledDetailWrapper>
+    <AppContext.Consumer> 
+    {({visible, menuOpen}) => (
+      <StyledDetailWrapper style={visible ? menuOpen.content : null}>
         <StyledParagraph>{data.allMarkdownRemark.edges[0].node.frontmatter.info}</StyledParagraph>
           <StyledDetailImageWrapper>
             {images.map((gc) => (<StyledImg fluid={gc.childImageSharp.fluid} key={gc.childImageSharp.id} />))}
           </StyledDetailImageWrapper>
         </StyledDetailWrapper>
-        </PageTransition>
+    )}
+    </AppContext.Consumer>
       </AppContextWrapper>
     );
   }

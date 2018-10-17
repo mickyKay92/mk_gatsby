@@ -14,7 +14,7 @@ const StyledHomeWrapper = styled.div`
     grid-template-columns: 70vw;
     grid-template-rows: 70vh;
     transform: unset;
-    transition: transform .25s ease-in-out;
+    transition: transform .5s;
     @media (max-width: 700px){
       grid-template-rows: auto;
       grid-template-columns: 90vw;
@@ -51,7 +51,8 @@ const StyledLink = styled(Link)`
 export default () => {
   return (
   <AppContextWrapper>
-    <AppContext.Consumer> {({ visible, menuOpen}) => (
+    <AppContext.Consumer> 
+    {({visible, menuOpen}) => (
       <StyledHomeWrapper style={visible ? menuOpen.content : null}>
         <StyledImagesWrapper>
           <StaticQuery query={graphql`
