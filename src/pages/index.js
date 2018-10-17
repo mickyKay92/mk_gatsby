@@ -3,7 +3,8 @@ import { AppContextWrapper } from '../components//layout.js';
 import { Link, graphql, StaticQuery } from 'gatsby';
 import styled from 'styled-components';
 import Img from 'gatsby-image';
-import PageTransition from 'gatsby-plugin-page-transitions'
+import {AppContext} from '../components/layout.js';
+
 
 const StyledHomeWrapper = styled.div`
     display: grid;
@@ -12,6 +13,8 @@ const StyledHomeWrapper = styled.div`
     justify-self: center;
     grid-template-columns: 70vw;
     grid-template-rows: 70vh;
+    transform: unset;
+    transition: transform .25s ease-in-out;
     @media (max-width: 700px){
       grid-template-rows: auto;
       grid-template-columns: 90vw;
@@ -48,55 +51,41 @@ const StyledLink = styled(Link)`
 export default () => {
   return (
   <AppContextWrapper>
-  <PageTransition defaultStyle={{
-      transition: 'top 350ms cubic-bezier(0.47, 0, 0.75, 0.72)',
-      top: '100%',
-      position: 'relative',
-      height: '100%',
-      justifySelf: 'center',
-      display: 'flex'
-    }}
-    transitionStyles={{
-      entering: { top: '0%' },
-      entered: { top : '0%' },
-      exiting: { top : '100%' },
-    }}
-    transitionTime={350}
-  >
-    <StyledHomeWrapper>
-      <StyledImagesWrapper>
-        <StaticQuery query={graphql`
-        query GalleryQuery { allMarkdownRemark(sort:{fields:frontmatter___title,order:DESC}) {
-          edges {
-            node {
-              frontmatter {
-                title
-                images {
-                  childImageSharp {
-                    id
-                    fixed(height: 100) {
-                      width
-                      height
-                      srcSet
-                      srcWebp
-                      srcSetWebp
-                      src
+    <AppContext.Consumer> {({ visible, menuOpen}) => (
+      <StyledHomeWrapper style={visible ? menuOpen.content : null}>
+        <StyledImagesWrapper>
+          <StaticQuery query={graphql`
+            query GalleryQuery { allMarkdownRemark(sort:{fields:frontmatter___title,order:DESC}) {
+              edges {
+                node {
+                  frontmatter {
+                    title
+                    images {
+                      childImageSharp {
+                        id
+                        fixed(height: 100) {
+                          width
+                          height
+                          srcSet
+                          srcWebp
+                          srcSetWebp
+                          src
+                        }
+                      }
                     }
                   }
                 }
               }
             }
           }
-        }
-      }
-        `} render={data => (data.allMarkdownRemark.edges.map((gc, index) => (<StyledLink to={`detail/${gc.node.frontmatter.title}`} key={index}>
-          <Image fixed={gc.node.frontmatter.images[0].childImageSharp.fixed} alt={gc.node.frontmatter.images[0].childImageSharp.id} key={gc.node.frontmatter.images[0].childImageSharp.id} />
-        </StyledLink>))
-        )}/>
-      </StyledImagesWrapper>
-    </StyledHomeWrapper>
-    </PageTransition>
+          `} render={data => (data.allMarkdownRemark.edges.map((gc, index) => (<StyledLink to={`detail/${gc.node.frontmatter.title}`} key={index}>
+            <Image fixed={gc.node.frontmatter.images[0].childImageSharp.fixed} alt={gc.node.frontmatter.images[0].childImageSharp.id} key={gc.node.frontmatter.images[0].childImageSharp.id} />
+          </StyledLink>))
+          )}/>
+        </StyledImagesWrapper>
+      </StyledHomeWrapper>
+    )}
+    </AppContext.Consumer>
   </AppContextWrapper>
-  
   );
 }

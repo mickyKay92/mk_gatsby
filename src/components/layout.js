@@ -16,12 +16,6 @@ const AppWrapper = styled.div`
   touch-action: manipulation;
   `
 
-  const ContentWrapper = styled.div`
-    display: inherit;
-    transition: transform .5s ;
-    transform: unset;
-  `
-
   const Overlay = styled.div`
     position: absolute;
     height: calc(100vh - 62px);
@@ -67,10 +61,8 @@ export class AppContextWrapper extends Component{
         <AppWrapper>
         <AppContext.Provider value={({visible: this.state.isVisible, updateVisible: this.updateContext, menuOpen: this.state.menuOpen})}>
         <Header/>
-        <ContentWrapper style={this.state.isVisible ? this.state.menuOpen.content : null}>
         <Overlay style={this.state.isVisible ? this.state.menuOpen.contentOverlay : null} onClick={() => this.setState({isVisible: false})}/>
           {children}
-          </ContentWrapper>
         </AppContext.Provider>
         </AppWrapper>
       );
