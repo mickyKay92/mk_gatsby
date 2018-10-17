@@ -15,8 +15,7 @@ const StyledDetailWrapper = styled.div`
   grid-template-areas: 
   "text"
   "images";
-  transform: unset;
-  transition: transform .5s;
+  transition: transform .5s ease-in-out;
   @media only screen and (max-width: 768px){
     grid-template-columns: 90vw;
   }

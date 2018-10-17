@@ -13,8 +13,7 @@ const StyledHomeWrapper = styled.div`
     justify-self: center;
     grid-template-columns: 70vw;
     grid-template-rows: 70vh;
-    transform: unset;
-    transition: transform .5s;
+    transition: transform .5s ease-in-out;
     @media (max-width: 700px){
       grid-template-rows: auto;
       grid-template-columns: 90vw;

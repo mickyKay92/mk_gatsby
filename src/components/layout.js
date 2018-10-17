@@ -1,6 +1,7 @@
 import React, {Component, createContext} from 'react';
 import styled from 'styled-components';
 import Header from './header';
+import MobileMenu from './mobilemenu.js';
 import './layout.css';
 require('typeface-montserrat');
 
@@ -42,7 +43,6 @@ export class AppContextWrapper extends Component{
           },
           content: {
             transform: 'translate(200px)',
-            overflowX: 'hidden',
           },
           contentOverlay: {
             background: 'rgba(245, 245, 245, 0.8)',
@@ -50,7 +50,10 @@ export class AppContextWrapper extends Component{
           },
           link: {
             transform: 'translate(0px)',
-          }
+          },
+          logo: {
+            transform: 'translate(0px)',
+          },
         },
       }
     }
@@ -59,11 +62,12 @@ export class AppContextWrapper extends Component{
       const children = this.props.children;
       return(
         <AppWrapper>
-        <AppContext.Provider value={({visible: this.state.isVisible, updateVisible: this.updateContext, menuOpen: this.state.menuOpen})}>
-        <Header/>
-        <Overlay style={this.state.isVisible ? this.state.menuOpen.contentOverlay : null} onClick={() => this.setState({isVisible: false})}/>
-          {children}
-        </AppContext.Provider>
+          <AppContext.Provider value={({visible: this.state.isVisible, updateVisible: this.updateContext, menuOpen: this.state.menuOpen})}>
+            <MobileMenu/>
+            <Header/>
+            <Overlay style={this.state.isVisible ? this.state.menuOpen.contentOverlay : null} onClick={() => this.setState({isVisible: false})}/>
+            {children}
+          </AppContext.Provider>
         </AppWrapper>
       );
     }

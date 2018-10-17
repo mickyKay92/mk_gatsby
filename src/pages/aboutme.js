@@ -21,8 +21,7 @@ const StyledAboutMeWrapper = styled.div`
     align-self: center;
     width: 70vw;
     grid-gap: 20px;
-    transform: unset;
-    transition: transform .5s;
+    transition: transform .5s ease-in-out;
     @media (max-width: 700px){
         grid-template-columns: 85vw;
         grid-template-areas: 
