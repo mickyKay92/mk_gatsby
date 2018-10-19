@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import {AppContextWrapper} from '../components/layout.js';
 import {graphql, StaticQuery} from 'gatsby';
 import Img from 'gatsby-image';
 import {AppContext} from '../components/layout.js';
@@ -108,7 +107,6 @@ const StyledH2 = styled.h2`
 `
 export default () => {
     return(
-    <AppContextWrapper>
     <AppContext.Consumer> 
     {({visible, menuOpen}) => (
         <StyledAboutMeWrapper style={visible ? menuOpen.content : null}>
@@ -157,6 +155,5 @@ export default () => {
         </StyledAboutMeWrapper>
     )}
     </AppContext.Consumer>
-        </AppContextWrapper>
     );
 }

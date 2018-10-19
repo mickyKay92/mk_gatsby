@@ -1,5 +1,4 @@
 import React from 'react';
-import { AppContextWrapper } from '../components/layout.js';
 import { Link, graphql, StaticQuery } from 'gatsby';
 import styled from 'styled-components';
 import Img from 'gatsby-image';
@@ -48,7 +47,6 @@ const StyledLink = styled(Link)`
 `
 export default () => {
   return (
-  <AppContextWrapper>
     <AppContext.Consumer> 
     {({visible, menuOpen}) => (
       <StyledHomeWrapper>
@@ -85,6 +83,5 @@ export default () => {
       </StyledHomeWrapper>
     )}
     </AppContext.Consumer>
-  </AppContextWrapper>
   );
 }

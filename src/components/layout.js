@@ -4,7 +4,7 @@ import Header from './header';
 import MobileMenu from './mobilemenu.js';
 import Helmet from 'react-helmet'
 import { StaticQuery, graphql} from 'gatsby';
-import posed from 'react-pose'
+import posed, { PoseGroup } from 'react-pose'
 import './layout.css';
 require('typeface-montserrat');
 
@@ -19,48 +19,61 @@ const ChildAnim = posed.div({
     opacity: 0,
   },
   menuVisible: {
-    x: 200,
-    transition: { duration: 300, ease: "easeInOut" },
+    flip: true,
+    left: 200,
+    transition: { left: {duration: 300, ease: "easeInOut"} },
   },
   menuHidden : {
-    x: 0,
-    transition: { duration: 300, ease: "easeInOut", delay: 250 }
+    flip: true,
+    left: 0,
+    transition: { left :{duration: 250, ease: "easeInOut", delay: 200} }
 }
 });
 
 const StyledChildAnim = styled(ChildAnim)`
   all: inherit;
+  position: relative !important;
+  @media (max-width: 700px){
+    top: 62px;
+  }
 `
 
 const PosedHeader = posed(Header)({
   menuVisible: {
-    x: 200,
-    transition: { x: {duration: 300, ease: "easeInOut"} },
+    left: 200,
+    flip: true,
+    transition: {left:{duration: 300, ease: "easeInOut"}},
   },
   menuHidden : {
-    x: 0,
-    transition: { x: {duration: 300, ease: "easeInOut", delay: 250}  }
+    left: 0,
+    flip: true,
+    transition: {left: {duration: 250, ease: "easeInOut", delay: 200} }
 }
 });
 
 const PosedMobileMenu = posed(MobileMenu)({
   visible: {
-    x: 0,
+    delayChildren: 200,
+    staggerChildren: 25,
+    left: 0,
+    flip: true,
     transition: { 
-      x: {
+      left: {
         ease: "easeInOut",
         duration: 300, 
       },
+      
     },
   },
   hidden : {
-    x: -250,
+    left: -200,
+    flip: true,
     transition: {
-      x:{ 
+      left:{ 
         ease: "easeInOut",
-        duration: 300,
-        delay: 250,
-      }
+        duration: 250,
+        delay: 200,
+      },
   },
 }
 });
@@ -77,7 +90,7 @@ const AppWrapper = styled.div`
   "content";
   touch-action: manipulation;
   `
-
+const timeout = 250
   const Overlay = styled.div`
     position: absolute;
     height: 100vh;
@@ -86,10 +99,12 @@ const AppWrapper = styled.div`
     transition: all .5s;
     pointer-events: none;
   `
-
+        const RoutesContainer = posed.div({
+          enter:{ delay: timeout, delayChildren: timeout },
+      })
 export const AppContext = createContext();
 
-export class AppContextWrapper extends Component{
+export class Layout extends Component{
     constructor(props){
       super(props);
       this.state = {
@@ -102,24 +117,15 @@ export class AppContextWrapper extends Component{
             background: 'rgba(245, 245, 245, 0.8)',
             pointerEvents: 'unset'
           },
-          link: {
-            transform: 'translate(0px)',
-          },
-          logo: {
-            transform: 'translate(0px)',
-          },
         },
       }
     }
-
-    static getDerivedStateFromProps(props, state){
-      console.log(`Props: ${props}`);
-      console.log(`State: ${state}`)
-    }
     updateContext = () => {this.setState({isVisible: !this.state.isVisible})};
     render(){
-      const children = this.props.children;
+      const {children, location} = this.props
       return(
+        <PoseGroup>
+          <RoutesContainer key={location.pathname}>
         <StaticQuery
         query={graphql`
           query SiteTitleQuery {
@@ -131,7 +137,6 @@ export class AppContextWrapper extends Component{
           }
         `}
         render={data => (
-          <>
             <Helmet
               title={data.site.siteMetadata.title}
               meta={[
@@ -139,6 +144,7 @@ export class AppContextWrapper extends Component{
                 { name: 'Graphic Design, Portfolio, Art, Logo', content: '' },
               ]}>
             </Helmet>
+            )}/>
             <AppWrapper>
               <AppContext.Provider value={({ visible: this.state.isVisible, updateVisible: this.updateContext, menuOpen: this.state.menuOpen })}>
                 <PosedMobileMenu pose={this.state.isVisible ? "visible" : "hidden"}/>
@@ -149,8 +155,8 @@ export class AppContextWrapper extends Component{
                 </StyledChildAnim>
               </AppContext.Provider>
             </AppWrapper>
-        </>
-        )}/>
+        </RoutesContainer>
+        </PoseGroup>
       );
     }
   }

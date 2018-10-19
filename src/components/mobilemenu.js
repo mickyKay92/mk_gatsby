@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {Link, StaticQuery, graphql} from 'gatsby';
 import {AppContext} from './layout.js';
 import Img from 'gatsby-image';
+import posed from 'react-pose'
 
 const StyledMobileMenu = styled.div`
 width: 200px;
@@ -25,12 +26,37 @@ object-fit: contain !important;
   margin: 10px 0px 10px 15px;
 }
 `
-const StyledLogoMobileMenu = styled(Link)`
+const PoseProps = {
+  visible: {
+    left: 0,
+    flip: true,
+    transition: { 
+      left: {
+        ease: "easeInOut",
+        duration: 250, 
+      },
+    },
+  },
+  hidden : {
+    left: -200,
+    flip: true,
+    transition: {
+      left:{ 
+        ease: "easeInOut",
+        duration: 250 ,
+        delay: 150,
+      }
+  },
+}
+}
+const PosedLogoMobileMenu = posed(Link)(PoseProps);
+
+const StyledLogoMobileMenu = styled(PosedLogoMobileMenu)`
+  position: relative;
   margin: 10px 10px 10px 16px;
   padding: 0;
   align-self: center;
   justify-self: start;
-  transform: translate(-200px);
 `
 const StyledNavLinksContainer = styled.div`
   grid-area: links;
@@ -45,29 +71,25 @@ const StyledNavLinksContainer = styled.div`
   color: #f5f5f5;
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
+  position: relative;
 }
 `
-const StyledLink1 = styled(Link)`
-  transition: transform .25s ease-in-out .25s;
-  transform: translate(-200px);
-`
-const StyledLink2 = styled(Link)`
-  transition: transform .25s ease-in-out .35s;
-  transform: translate(-200px);
-`
+
+const PosedLink = posed(Link)(PoseProps);
+
 export default ({hostRef}) => (
     <AppContext.Consumer>
-        {({visible, menuOpen}) =>(
+        {({visible, updateVisible}) =>(
     <StyledMobileMenu key="StyledMenu" ref={hostRef}>
     <StaticQuery query={graphql`query MobileMenuAssetQuery {file (relativePath: {regex:"/logo/"}){childImageSharp{id
             fixed(width:92){src width height aspectRatio srcSet srcWebp srcSetWebp}
       }}}`} render={data =>(
-    <StyledLogoMobileMenu to={'/'} style={visible ? menuOpen.logo : null}><Img fixed={data.file.childImageSharp.fixed} alt="logo" key={data.file.childImageSharp.id}/></StyledLogoMobileMenu>
+    <StyledLogoMobileMenu to={'/'}><Img fixed={data.file.childImageSharp.fixed} alt="logo" key={data.file.childImageSharp.id}/></StyledLogoMobileMenu>
       )}/>
 
         <StyledNavLinksContainer>
-            <StyledLink1 to={'/'} style={visible ? menuOpen.link : null}>Work</StyledLink1>
-            <StyledLink2 to={'/aboutme'} style={visible ? menuOpen.link : null}>About</StyledLink2>
+            <PosedLink pose={visible ? "visible" : "hidden"} onClick={updateVisible} to={'/'}>Work</PosedLink>
+            <PosedLink pose={visible ? "visible" : "hidden"} onClick={updateVisible} to={'/aboutme'}>About</PosedLink>
         </StyledNavLinksContainer>
     </StyledMobileMenu>
     )}

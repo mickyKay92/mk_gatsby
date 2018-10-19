@@ -8,7 +8,7 @@ class Transition extends PureComponent{
         const {children, location} = this.props
 
         const RoutesContainer = posed.div({
-            enter:{ deylay: timeout, delayChildren: timeout },
+            enter:{ delay: timeout, delayChildren: timeout },
         })
 
         return(

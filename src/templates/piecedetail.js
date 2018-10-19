@@ -1,6 +1,5 @@
 import React from 'react';
 import Img from "gatsby-image"
-import {AppContextWrapper} from '../components/layout.js'
 import {graphql} from 'gatsby'
 import styled from 'styled-components'
 import {AppContext} from '../components/layout.js';
@@ -48,7 +47,6 @@ const StyledImg = styled(Img)`
 export default ({data}) => {
   const images = data.allMarkdownRemark.edges[0].node.frontmatter.images
   return (
-    <AppContextWrapper>
     <AppContext.Consumer> 
     {({visible, menuOpen}) => (
       <StyledDetailWrapper>
@@ -59,7 +57,6 @@ export default ({data}) => {
         </StyledDetailWrapper>
     )}
     </AppContext.Consumer>
-      </AppContextWrapper>
     );
   }
   
