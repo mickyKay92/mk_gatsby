@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
 import {Link, StaticQuery, graphql} from 'gatsby';
-import {AppContext} from './layout.js';
 import Img from 'gatsby-image';
 
 const StyledMenuButton = styled.img`
@@ -11,7 +10,6 @@ const StyledMenuButton = styled.img`
   justify-self: start;
   align-self: center;
 `
-
 const StyledHeader = styled.div`
 display: grid;
 grid-area: header;
@@ -22,7 +20,6 @@ z-index: 5;
 top: 0;
 background-color: #f5f5f5;
 box-shadow: 0px -5px 22px -5px #00000085;
-transition: transform .5s ease-in-out;
 `
 
 const StyledLogoLink = styled(Link)`
@@ -31,19 +28,15 @@ const StyledLogoLink = styled(Link)`
   align-self: center;
   justify-self: end;
 `
-export default () =>{
+export default ({visible, updateVisible, menuOpen, hostRef}) =>{
     return(
-      <AppContext.Consumer>
-        {({ visible, updateVisible, menuOpen}) => (
           <StaticQuery query={graphql`query AssetQuery { logo:file (relativePath: {regex:"/logo/"}){childImageSharp{id
             fixed(width:48){src width height aspectRatio srcSet srcWebp srcSetWebp}
       }} menu:file(relativePath:{regex:"/baseline-menu/"}){ publicURL } }`} render={data =>(
-          <StyledHeader style={visible ? menuOpen.content : null}>
+          <StyledHeader ref={hostRef}>
           <StyledMenuButton src={data.menu.publicURL} alt="Menu" onClick={updateVisible} style={visible ? menuOpen.button : null}></StyledMenuButton>
           <StyledLogoLink to={'/'}><Img fixed={data.logo.childImageSharp.fixed} alt="logo" key={data.logo.childImageSharp.id}/></StyledLogoLink>
           </StyledHeader> 
             )}/>
-        )}
-      </AppContext.Consumer>
     );
   }

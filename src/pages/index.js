@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppContextWrapper } from '../components//layout.js';
+import { AppContextWrapper } from '../components/layout.js';
 import { Link, graphql, StaticQuery } from 'gatsby';
 import styled from 'styled-components';
 import Img from 'gatsby-image';
@@ -13,7 +13,6 @@ const StyledHomeWrapper = styled.div`
     justify-self: center;
     grid-template-columns: 70vw;
     grid-template-rows: 70vh;
-    transition: transform .5s ease-in-out;
     @media (max-width: 700px){
       grid-template-rows: auto;
       grid-template-columns: 90vw;
@@ -52,7 +51,7 @@ export default () => {
   <AppContextWrapper>
     <AppContext.Consumer> 
     {({visible, menuOpen}) => (
-      <StyledHomeWrapper style={visible ? menuOpen.content : null}>
+      <StyledHomeWrapper>
         <StyledImagesWrapper>
           <StaticQuery query={graphql`
             query GalleryQuery { allMarkdownRemark(sort:{fields:frontmatter___title,order:DESC}) {

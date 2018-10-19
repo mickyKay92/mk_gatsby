@@ -15,7 +15,6 @@ const StyledDetailWrapper = styled.div`
   grid-template-areas: 
   "text"
   "images";
-  transition: transform .5s ease-in-out;
   @media only screen and (max-width: 768px){
     grid-template-columns: 90vw;
   }
@@ -48,12 +47,11 @@ const StyledImg = styled(Img)`
 
 export default ({data}) => {
   const images = data.allMarkdownRemark.edges[0].node.frontmatter.images
-  console.log(data)
   return (
     <AppContextWrapper>
     <AppContext.Consumer> 
     {({visible, menuOpen}) => (
-      <StyledDetailWrapper style={visible ? menuOpen.content : null}>
+      <StyledDetailWrapper>
         <StyledParagraph>{data.allMarkdownRemark.edges[0].node.frontmatter.info}</StyledParagraph>
           <StyledDetailImageWrapper>
             {images.map((gc) => (<StyledImg fluid={gc.childImageSharp.fluid} key={gc.childImageSharp.id} />))}

@@ -5,7 +5,6 @@ import {AppContext} from './layout.js';
 import Img from 'gatsby-image';
 
 const StyledMobileMenu = styled.div`
-transform: translate(-200px);
 width: 200px;
 height: 100vh;
 background-color: rgb(74, 74, 74);
@@ -17,7 +16,6 @@ grid-template-areas:
 grid-template-columns: 100%;
 grid-template-rows: auto 1fr;
 position: fixed;
-transition: transform .5s ease-in-out;
 overflow-x: hidden;
 > div > picture > img{
 grid-area: mobile-menu-logo;
@@ -32,7 +30,6 @@ const StyledLogoMobileMenu = styled(Link)`
   padding: 0;
   align-self: center;
   justify-self: start;
-  transition: transform .25s ease-in-out .15s;
   transform: translate(-200px);
 `
 const StyledNavLinksContainer = styled.div`
@@ -58,11 +55,10 @@ const StyledLink2 = styled(Link)`
   transition: transform .25s ease-in-out .35s;
   transform: translate(-200px);
 `
-export default () => (
+export default ({hostRef}) => (
     <AppContext.Consumer>
         {({visible, menuOpen}) =>(
-    <StyledMobileMenu key="StyledMenu" style={visible ? menuOpen.menu : null}>
-
+    <StyledMobileMenu key="StyledMenu" ref={hostRef}>
     <StaticQuery query={graphql`query MobileMenuAssetQuery {file (relativePath: {regex:"/logo/"}){childImageSharp{id
             fixed(width:92){src width height aspectRatio srcSet srcWebp srcSetWebp}
       }}}`} render={data =>(
