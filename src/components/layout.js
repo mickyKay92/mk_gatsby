@@ -11,11 +11,13 @@ require('typeface-montserrat');
 
 const ChildAnim = posed.div({
   enter:{
-    y: 0,
+    flip: true,
+    top: 62,
     opacity: 1,
   },
   exit: {
-    y: 1440,
+    flip: true,
+    top: 1000,
     opacity: 0,
   },
   menuVisible: {
@@ -149,9 +151,9 @@ export class Layout extends Component{
             </Helmet>
             )}/>
             <AppWrapper>
-              <AppContext.Provider value={({ visible: this.state.isVisible, updateVisible: this.updateContext, menuOpen: this.state.menuOpen })}>
+              <AppContext.Provider value={({ visible: this.state.isVisible, updateVisible: this.updateContext})}>
                 <PosedMobileMenu pose={this.state.isVisible ? "visible" : "hidden"}/>
-                  <PosedHeader pose={this.state.isVisible ? "menuVisible" : "menuHidden"} visible={this.state.isVisible} updateVisible={this.updateContext} menuOpen={this.state.menuOpen}/>
+                  <PosedHeader pose={this.state.isVisible ? "menuVisible" : "menuHidden"} visible={this.state.isVisible} updateVisible={this.updateContext}/>
                 <StyledOverlay pose={this.state.isVisible ? "visible" : "hidden"} onClick={() => this.setState({ isVisible: false })} />
                 <StyledChildAnim pose={this.state.isVisible ? "menuVisible" : "menuHidden"}>
                   {children}

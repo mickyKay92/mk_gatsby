@@ -109,8 +109,8 @@ const StyledH2 = styled.h2`
 export default () => {
     return(
     <AppContext.Consumer> 
-    {({visible, menuOpen, updateVisible}) => (
-        <StyledAboutMeWrapper style={visible ? menuOpen.content : null} onLoad={()=>{setTimeout(visible ? updateVisible : null ,850)}}>
+    {({visible, updateVisible}) => (
+        <StyledAboutMeWrapper onLoad={()=>{setTimeout(visible ? updateVisible : null ,850)}}>
             <StaticQuery query={graphql`query AboutMeQuery{file(relativePath: {regex:"/images/me/"}){
                 childImageSharp{
                     fluid(maxWidth:500, quality: 90){
