@@ -66,7 +66,7 @@ query ($slug: String!) {
             images {
               childImageSharp {
                 id
-                fluid(maxWidth: 1000) {
+                fluid(maxWidth: 1000, quality: 90) {
                   src
                   srcSet
                   srcWebp
