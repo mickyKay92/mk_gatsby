@@ -78,20 +78,19 @@ const StyledNavLinksContainer = styled.div`
 const PosedLink = posed(Link)(PoseProps);
 
 export default ({hostRef}) => (
-    <AppContext.Consumer>
-        {({visible, updateVisible}) =>(
+  <AppContext.Consumer>
+  {({visible}) =>(
     <StyledMobileMenu key="StyledMenu" ref={hostRef}>
-    <StaticQuery query={graphql`query MobileMenuAssetQuery {file (relativePath: {regex:"/logo/"}){childImageSharp{id
-            fixed(width:92){src width height aspectRatio srcSet srcWebp srcSetWebp}
+      <StaticQuery query={graphql`query MobileMenuAssetQuery {file (relativePath: {regex:"/logo/"}){childImageSharp{id
+      fixed(width:92){src width height aspectRatio srcSet srcWebp srcSetWebp}
       }}}`} render={data =>(
-    <StyledLogoMobileMenu to={'/'}><Img fixed={data.file.childImageSharp.fixed} alt="logo" key={data.file.childImageSharp.id}/></StyledLogoMobileMenu>
+        <StyledLogoMobileMenu to={'/'}><Img fixed={data.file.childImageSharp.fixed} alt="logo" key={data.file.childImageSharp.id}/></StyledLogoMobileMenu>
       )}/>
-
-        <StyledNavLinksContainer>
-            <PosedLink pose={visible ? "visible" : "hidden"} onClick={updateVisible} to={'/'}>Work</PosedLink>
-            <PosedLink pose={visible ? "visible" : "hidden"} onClick={updateVisible} to={'/aboutme'}>About</PosedLink>
-        </StyledNavLinksContainer>
+      <StyledNavLinksContainer>
+        <PosedLink pose={visible ? "visible" : "hidden"}  to={'/'}>Work</PosedLink>
+        <PosedLink pose={visible ? "visible" : "hidden"}  to={'/aboutme'}>About</PosedLink>
+      </StyledNavLinksContainer>
     </StyledMobileMenu>
     )}
-    </AppContext.Consumer>
+  </AppContext.Consumer>
 )

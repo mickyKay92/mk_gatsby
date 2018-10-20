@@ -7,11 +7,11 @@ import posed from 'react-pose'
 const PosedMenuBtn = posed.img({
   visible:{
     rotate: 90,
-    transition:{duration: 250}
+    transition:{rotate:{ease: "easeInOut", duration: 300} }
   },
   hidden:{
     rotate: 0,
-    transition: {duration: 300}
+    transition: {rotate:{ease: "easeInOut", duration: 250} }
   },
 });
 
@@ -41,15 +41,15 @@ const StyledLogoLink = styled(Link)`
   align-self: center;
   justify-self: end;
 `
-export default ({visible, updateVisible, menuOpen, hostRef}) =>{
-    return(
-          <StaticQuery query={graphql`query AssetQuery { logo:file (relativePath: {regex:"/logo/"}){childImageSharp{id
-            fixed(width:48){src width height aspectRatio srcSet srcWebp srcSetWebp}
-      }} menu:file(relativePath:{regex:"/baseline-menu/"}){ publicURL } }`} render={data =>(
-          <StyledHeader ref={hostRef}>
-          <StyledMenuButton src={data.menu.publicURL} alt="Menu" onClick={updateVisible} pose={visible ? "visible" : "hidden"}></StyledMenuButton>
-          <StyledLogoLink to={'/'}><Img fixed={data.logo.childImageSharp.fixed} alt="logo" key={data.logo.childImageSharp.id}/></StyledLogoLink>
-          </StyledHeader> 
-            )}/>
-    );
-  }
+export default ({visible, updateVisible, hostRef}) =>{
+  return (
+    <StaticQuery query={graphql`query AssetQuery { logo:file (relativePath: {regex:"/logo/"}){childImageSharp{id
+    fixed(width:48, quality: 90){src width height aspectRatio srcSet srcWebp srcSetWebp}
+    }} menu:file(relativePath:{regex:"/baseline-menu/"}){ publicURL } }`} render={data => (
+      <StyledHeader ref={hostRef}>
+        <StyledMenuButton src={data.menu.publicURL} alt="Menu" onClick={updateVisible} pose={visible ? "visible" : "hidden"}></StyledMenuButton>
+        <StyledLogoLink to={'/'}><Img fixed={data.logo.childImageSharp.fixed} alt="logo" key={data.logo.childImageSharp.id} /></StyledLogoLink>
+      </StyledHeader>
+    )}/>
+  );
+}

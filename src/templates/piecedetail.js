@@ -2,7 +2,6 @@ import React from 'react';
 import Img from "gatsby-image"
 import {graphql} from 'gatsby'
 import styled from 'styled-components'
-import {AppContext} from '../components/layout.js';
 
 
 const StyledDetailWrapper = styled.div`
@@ -41,26 +40,22 @@ const StyledImg = styled(Img)`
   > picture > img {
       object-fit: contain !important;
       border-radius: 5px !important;
-    }
+  }
 `
 
 export default ({data}) => {
   const images = data.allMarkdownRemark.edges[0].node.frontmatter.images
   return (
-    <AppContext.Consumer> 
-    {({visible, menuOpen}) => (
-      <StyledDetailWrapper>
-        <StyledParagraph>{data.allMarkdownRemark.edges[0].node.frontmatter.info}</StyledParagraph>
-          <StyledDetailImageWrapper>
-            {images.map((gc) => (<StyledImg fluid={gc.childImageSharp.fluid} key={gc.childImageSharp.id} />))}
-          </StyledDetailImageWrapper>
-        </StyledDetailWrapper>
-    )}
-    </AppContext.Consumer>
-    );
-  }
+    <StyledDetailWrapper>
+      <StyledParagraph>{data.allMarkdownRemark.edges[0].node.frontmatter.info}</StyledParagraph>
+      <StyledDetailImageWrapper>
+        {images.map((gc) => (<StyledImg fluid={gc.childImageSharp.fluid} key={gc.childImageSharp.id} />))}
+      </StyledDetailImageWrapper>
+    </StyledDetailWrapper>
+  );
+}
   
-  export const query = graphql`
+export const query = graphql`
 query ($slug: String!) {
     allMarkdownRemark(filter: {fields: {slug: {eq: $slug}}}) {
       edges {

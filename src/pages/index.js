@@ -48,8 +48,8 @@ const StyledLink = styled(Link)`
 export default () => {
   return (
     <AppContext.Consumer> 
-    {({visible, menuOpen}) => (
-      <StyledHomeWrapper>
+    {({visible, updateVisible}) => (
+      <StyledHomeWrapper onLoad={()=>{setTimeout(visible ? updateVisible : null ,850)}}>
         <StyledImagesWrapper>
           <StaticQuery query={graphql`
             query GalleryQuery { allMarkdownRemark(sort:{fields:frontmatter___title,order:DESC}) {

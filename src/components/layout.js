@@ -35,6 +35,7 @@ const StyledChildAnim = styled(ChildAnim)`
   position: relative !important;
   @media (max-width: 700px){
     top: 62px;
+    height: calc(100vh - 62px);
   }
 `
 
@@ -48,7 +49,7 @@ const PosedHeader = posed(Header)({
     left: 0,
     flip: true,
     transition: {left: {duration: 250, ease: "easeInOut", delay: 200} }
-}
+  }
 });
 
 const PosedMobileMenu = posed(MobileMenu)({
@@ -57,25 +58,24 @@ const PosedMobileMenu = posed(MobileMenu)({
     staggerChildren: 25,
     left: 0,
     flip: true,
-    transition: { 
+    transition: {
       left: {
         ease: "easeInOut",
-        duration: 300, 
+        duration: 300,
       },
-      
     },
   },
-  hidden : {
+  hidden: {
     left: -200,
     flip: true,
     transition: {
-      left:{ 
+      left: {
         ease: "easeInOut",
         duration: 250,
         delay: 200,
       },
-  },
-}
+    },
+  }
 });
 
 
@@ -89,19 +89,31 @@ const AppWrapper = styled.div`
   "header"
   "content";
   touch-action: manipulation;
-  `
+`
 const timeout = 250
-  const Overlay = styled.div`
+
+const Overlay = posed.div({
+  visible:{
+    opacity: 1
+  },
+  hidden:{
+    opacity: 0
+  },
+});
+
+const StyledOverlay = styled(Overlay)`
     position: absolute;
     height: 100vh;
     width: 100%;
     z-index: 3;
-    transition: all .5s;
+    opacity: 0;
     pointer-events: none;
+    background: rgba(245, 245, 245, 0.8);
   `
-        const RoutesContainer = posed.div({
-          enter:{ delay: timeout, delayChildren: timeout },
-      })
+
+const RoutesContainer = posed.div({
+  enter: { delay: timeout, delayChildren: timeout },
+})
 export const AppContext = createContext();
 
 export class Layout extends Component{
@@ -109,15 +121,6 @@ export class Layout extends Component{
       super(props);
       this.state = {
         isVisible: false,
-        menuOpen: {
-          button: {
-            transform: 'rotate(90deg)'
-          },
-          contentOverlay: {
-            background: 'rgba(245, 245, 245, 0.8)',
-            pointerEvents: 'unset'
-          },
-        },
       }
     }
     updateContext = () => {this.setState({isVisible: !this.state.isVisible})};
@@ -149,7 +152,7 @@ export class Layout extends Component{
               <AppContext.Provider value={({ visible: this.state.isVisible, updateVisible: this.updateContext, menuOpen: this.state.menuOpen })}>
                 <PosedMobileMenu pose={this.state.isVisible ? "visible" : "hidden"}/>
                   <PosedHeader pose={this.state.isVisible ? "menuVisible" : "menuHidden"} visible={this.state.isVisible} updateVisible={this.updateContext} menuOpen={this.state.menuOpen}/>
-                <Overlay style={this.state.isVisible ? this.state.menuOpen.contentOverlay : null} onClick={() => this.setState({ isVisible: false })} />
+                <StyledOverlay pose={this.state.isVisible ? "visible" : "hidden"} onClick={() => this.setState({ isVisible: false })} />
                 <StyledChildAnim pose={this.state.isVisible ? "menuVisible" : "menuHidden"}>
                   {children}
                 </StyledChildAnim>

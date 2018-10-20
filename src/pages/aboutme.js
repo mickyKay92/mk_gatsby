@@ -21,7 +21,7 @@ const StyledAboutMeWrapper = styled.div`
     width: 70vw;
     grid-gap: 20px;
     @media (max-width: 700px){
-        grid-template-columns: 85vw;
+        grid-template-columns: 95vw;
         grid-template-areas: 
         "image" 
         "title"
@@ -31,6 +31,7 @@ const StyledAboutMeWrapper = styled.div`
         justify-self: center;
         align-self: unset;
         width: unset;
+        grid-gap: 15px;
     }
 `
 
@@ -108,11 +109,11 @@ const StyledH2 = styled.h2`
 export default () => {
     return(
     <AppContext.Consumer> 
-    {({visible, menuOpen}) => (
-        <StyledAboutMeWrapper style={visible ? menuOpen.content : null}>
+    {({visible, menuOpen, updateVisible}) => (
+        <StyledAboutMeWrapper style={visible ? menuOpen.content : null} onLoad={()=>{setTimeout(visible ? updateVisible : null ,850)}}>
             <StaticQuery query={graphql`query AboutMeQuery{file(relativePath: {regex:"/images/me/"}){
                 childImageSharp{
-                    fluid(maxWidth:500){
+                    fluid(maxWidth:500, quality: 90){
                         src
                         sizes
                         srcWebp
@@ -120,8 +121,8 @@ export default () => {
                         srcSet
                         aspectRatio
                     }}}}`} render={data => (<StyledAboutMeImg fluid={data.file.childImageSharp.fluid} key="abti"/>)}/>
-            <StyledH2 key="abth">Hello!</StyledH2>
-            <StyledParagraph key="abtp">
+            <StyledH2>Hello!</StyledH2>
+            <StyledParagraph>
                 My name is Michelle and I have been working as a freelance digital artist since 2013 creating digital paintings, illustrations and comics for various clients.
                 <br />
                 <br />
@@ -130,7 +131,7 @@ export default () => {
                 <br />
                 As I enjoy learning new skills, in my spare time I have completed an online course on HTML and CSS using Codecademy. If you'd like to get in contact with me please don't hesitate, My contact details are below!
             </StyledParagraph>
-            <SocialWrapper key="aqa">
+            <SocialWrapper>
             <a href="mailto:michelle@mk-creativedesign.com" title="Email">
                 <svg viewBox="0 0 512 512" fill="#4a4a4a">
                     <path d="M101.3 141.6v228.9h0.3 308.4 0.8V141.6H101.3zM375.7 167.8l-119.7 91.5 -119.6-91.5H375.7zM127.6 194.1l64.1 49.1 -64.1 64.1V194.1zM127.8 344.2l84.9-84.9 43.2 33.1 43-32.9 84.7 84.7L127.8 344.2 127.8 344.2zM384.4 307.8l-64.4-64.4 64.4-49.3V307.8z">
