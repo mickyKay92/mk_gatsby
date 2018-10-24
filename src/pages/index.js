@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, graphql, StaticQuery } from 'gatsby';
 import styled from 'styled-components';
 import Img from 'gatsby-image';
-import {AppContext} from '../components/layout.js';
+import {AppContext} from '../components/layout';
 
 
 const StyledHomeWrapper = styled.div`

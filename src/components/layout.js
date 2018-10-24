@@ -121,7 +121,7 @@ const RoutesContainer = posed.div({
 })
 export const AppContext = createContext();
 
-export class Layout extends Component{
+export default class Layout extends Component{
     constructor(props){
       super(props);
       this.state = {
