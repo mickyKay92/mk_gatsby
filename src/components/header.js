@@ -3,15 +3,18 @@ import styled from 'styled-components';
 import {Link, StaticQuery, graphql} from 'gatsby';
 import Img from 'gatsby-image';
 import posed from 'react-pose'
+import { easing } from 'popmotion';
 
 const PosedMenuBtn = posed.img({
   visible:{
     rotate: 90,
-    transition:{rotate:{ease: "easeInOut", duration: 300} }
+    ease: easing.easeIn,
+    transition:{rotate:{duration: 300} }
   },
   hidden:{
     rotate: 0,
-    transition: {rotate:{ease: "easeInOut", duration: 250} }
+    ease: easing.easeOut,
+    transition: {rotate:{duration: 250} }
   },
 });
 

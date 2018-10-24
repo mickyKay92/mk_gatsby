@@ -5,52 +5,55 @@ import MobileMenu from './mobilemenu.js';
 import Helmet from 'react-helmet'
 import { StaticQuery, graphql} from 'gatsby';
 import posed, { PoseGroup } from 'react-pose'
+import { easing } from 'popmotion';
 import './layout.css';
 require('typeface-montserrat');
-
 
 const ChildAnim = posed.div({
   enter:{
     flip: true,
     top: 62,
     opacity: 1,
+    ease: easing.easeIn
   },
   exit: {
     flip: true,
-    top: 1000,
+    top: 562,
     opacity: 0,
+    ease: easing.easeOut
   },
   menuVisible: {
     flip: true,
     left: 200,
-    transition: { left: {duration: 300, ease: "easeInOut"} },
+    ease: easing.easeIn,
+    transition: { left: {duration: 300} },
   },
   menuHidden : {
     flip: true,
     left: 0,
-    transition: { left :{duration: 250, ease: "easeInOut", delay: 200} }
+    ease: easing.easeOut,
+    transition: { left :{duration: 250, delay: 200} }
 }
 });
 
 const StyledChildAnim = styled(ChildAnim)`
   all: inherit;
   position: relative !important;
-  @media (max-width: 700px){
-    top: 62px;
-    height: calc(100vh - 62px);
-  }
+  max-height: calc(100vh - 62px);
 `
 
 const PosedHeader = posed(Header)({
   menuVisible: {
     left: 200,
     flip: true,
-    transition: {left:{duration: 300, ease: "easeInOut"}},
+    ease: easing.easeIn,
+    transition: {left:{duration: 300}},
   },
   menuHidden : {
     left: 0,
     flip: true,
-    transition: {left: {duration: 250, ease: "easeInOut", delay: 200} }
+    ease: easing.easeOut,
+    transition: {left: {duration: 250, delay: 200} }
   }
 });
 
@@ -60,9 +63,9 @@ const PosedMobileMenu = posed(MobileMenu)({
     staggerChildren: 25,
     left: 0,
     flip: true,
+    ease: easing.easeIn,
     transition: {
       left: {
-        ease: "easeInOut",
         duration: 300,
       },
     },
@@ -70,9 +73,9 @@ const PosedMobileMenu = posed(MobileMenu)({
   hidden: {
     left: -200,
     flip: true,
+    ease: easing.easeOut,
     transition: {
       left: {
-        ease: "easeInOut",
         duration: 250,
         delay: 200,
       },

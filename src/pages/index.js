@@ -49,7 +49,7 @@ export default () => {
   return (
     <AppContext.Consumer> 
     {({visible, updateVisible}) => (
-      <StyledHomeWrapper onLoad={()=>{setTimeout(visible ? updateVisible : null ,850)}}>
+      <StyledHomeWrapper onLoad={()=>{setTimeout(visible ? updateVisible : null, 850)}}>
         <StyledImagesWrapper>
           <StaticQuery query={graphql`
             query GalleryQuery { allMarkdownRemark(sort:{fields:frontmatter___title,order:DESC}) {
